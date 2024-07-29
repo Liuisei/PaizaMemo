@@ -1,79 +1,32 @@
 ﻿using System;
+using System.Linq;
 
 class Program
 {
-    static public void masuhanntei(ref char[,] board, int oy, int ox)
-    {
-        bool right = false;
-        bool left = false;
-        bool up = false;
-        bool down = false;
-
-        if (ox + 1 >= board.GetLength(1))
-        {
-            right = true;
-        }
-        else if (board[oy, ox + 1] == '#')
-        {
-            right = true;
-        }
-       
-        if (ox - 1 < 0)
-        {
-            left = true;
-        }
-        else if (board[oy, ox - 1] == '#')
-        {
-            left = true;
-        }
-        
-        if (oy + 1 >= board.GetLength(0))
-        {
-            down = true;
-        }
-        else if (board[oy + 1, ox] == '#')
-        {
-            down = true;
-        }
-        
-        if (oy - 1 < 0)
-        {
-            up = true;
-        }
-        else if (board[oy - 1, ox] == '#')
-        {
-            up = true;
-        }
-
-        if ( right && left && up && down)
-        {
-            Console.WriteLine(oy + " " + ox);
-        }
-    }
-
     static public void Main()
     {
-        // 標準入力からの読み取り
-        string[] inputs = Console.ReadLine().Split();
-        int H = int.Parse(inputs[0]);
-        int W = int.Parse(inputs[1]);
+        var input = Console.ReadLine().Split().Select(int.Parse).ToList();
+        int y = input[0];
+        int x = input[1];
+        char[,] yx = new Char[y, x];
 
-        // 盤面の読み取り
-        char[,] board = new char[H, W];
-        for (int i = 0; i < H; i++)
+        for (int i = 0; i < y; i++)
         {
-            string line = Console.ReadLine();
-            for (int j = 0; j < W; j++)
+            var line = Console.ReadLine().Select(e => (char)e).ToList();
+            for (int j = 0; j < x; j++)
             {
-                board[i, j] = line[j];
+                yx[i, j] = line[j];
             }
         }
 
-        for (int i = 0; i < H; i++)
+        for (int i = 0; i < y; i++)
         {
-            for (int j = 0; j < W; j++)
+            for (int j = 0; j < x; j++)
             {
-                masuhanntei(ref board, i, j);
+                if (yx[i, j] == '#')
+                {
+                    Console.WriteLine($"{i} {j}");
+                }
             }
         }
     }
